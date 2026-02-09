@@ -1,12 +1,13 @@
-import express from "express";
 import { config } from "dotenv";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import { createTables } from "./utils/createTables.js";
+
+config({ path: "./config/config.env" }); // 👈 Load env variables before anything else
 
 const app = express();
-
-config({ path: "./config/config.env" });
 
 app.use(cors({
     origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
@@ -22,5 +23,7 @@ app.use(fileUpload({
     tempFileDir: "./upload",
     useTempFiles: true
 }));
+
+createTables(); // ab env pehle se available hai ✅
 
 export default app;
